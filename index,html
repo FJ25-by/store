@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store Yuji - Digital Services</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+
+        .header h1 {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .service-card h3 {
+            color: #4a5568;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .service-card .icon {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .service-card p {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .service-card .price {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .payment-info {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .payment-info h2 {
+            color: #4a5568;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .payment-method {
+            background: #f7fafc;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .payment-method:hover {
+            border-color: #667eea;
+            background: #edf2f7;
+        }
+
+        .payment-method.selected {
+            border-color: #667eea;
+            background: #e6fffa;
+        }
+
+        .payment-method strong {
+            display: block;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+
+        .footer {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .footer p {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 10px;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        .order-form {
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .payment-section {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .payment-gateway {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: #e8f5e8;
+            border-radius: 10px;
+            border: 2px solid #48bb78;
+        }
+
+        .qr-code {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .qr-code img {
+            max-width: 200px;
+            height: auto;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+        }
+
+        .payment-instructions {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #ffc107;
+        }
+
+        .payment-instructions h4 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .payment-instructions ol {
+            color: #856404;
+            padding-left: 20px;
+        }
+
+        .payment-instructions li {
+            margin-bottom: 5px;
+        }
+
+        .amount-display {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2d3748;
+            text-align: center;
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border: 2px dashed #667eea;
+        }
+
+        .timer {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #e53e3e;
+            margin: 10px 0;
+        }
+
+        .copy-btn {
+            background: #48bb78;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-left: 10px;
+        }
+
+        .copy-btn:hover {
+            background: #38a169;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: #48bb78;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #48bb78;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            z-index: 10000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.error {
+            background: #e53e3e;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .contact-info {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .modal-content {
+                margin: 2% auto;
+                width: 95%;
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .service-card {
+                padding: 20px;
+            }
+        }
+    </style>
+    <script src="https://cdn.emailjs.com/sdk/2.6.4/email.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Store Yuji</h1>
+            <p><span class="status-indicator"></span>Layanan Digital Terpercaya & Berkualitas</p>
+        </div>
+
+        <div class="services-grid">
+            <div class="service-card">
+                <h3><span class="icon">📱</span>Social Media</h3>
+                <p>Followers, likes, views untuk Instagram, TikTok, YouTube, Facebook, Twitter dan platform lainnya.</p>
+                <div class="price">Mulai dari Rp 1.000</div>
+                <button class="btn" onclick="openModal('Social Media Panel', 1000)">Pesan Sekarang</button>
+            </div>
+
+            <div class="service-card">
+                <h3><span class="icon">🎮</span>Game Top Up</h3>
+                <p>Top up diamond Mobile Legends, Free Fire, PUBG, Genshin Impact, dan game populer lainnya.</p>
+                <div class="price">Mulai dari Rp 5.000</div>
+                <button class="btn" onclick="openModal('Game Top Up', 5000)">Pesan Sekarang</button>
+            </div>
+
+            <div class="service-card">
+                <h3><span class="icon">📞</span>Pulsa & Data</h3>
+                <p>Pulsa dan paket data untuk semua operator Indonesia dengan harga terjangkau.</p>
+                <div class="price">Mulai dari Rp 5.000</div>
+                <button class="btn" onclick="openModal('Pulsa & Data', 5000)">Pesan Sekarang</button>
+            </div>
+
+            <div class="service-card">
+                <h3><span class="icon">💳</span>E-Wallet</h3>
+                <p>Top up saldo GoPay, OVO, DANA, ShopeePay dan e-wallet lainnya.</p>
+                <div class="price">Mulai dari Rp 10.000</div>
+                <button class="btn" onclick="openModal('E-Wallet', 10000)">Pesan Sekarang</button>
+            </div>
+
+            <div class="service-card">
+                <h3><span class="icon">🎬</span>Streaming Premium</h3>
+                <p>Akun premium Netflix, Spotify, YouTube Premium, Disney+ dan layanan streaming lainnya.</p>
+                <div class="price">Mulai dari Rp 15.000</div>
+                <button class="btn" onclick="openModal('Streaming Premium', 15000)">Pesan Sekarang</button>
+            </div>
+
+            <div class="service-card">
+                <h3><span class="icon">🛡</span>Software License</h3>
+                <p>License Windows, Office, antivirus dan software premium lainnya dengan harga terjangkau.</p>
+                <div class="price">Mulai dari Rp 25.000</div>
+                <button class="btn" onclick="openModal('Software License', 25000)">Pesan Sekarang</button>
+            </div>
+        </div>
+
+        <div class="payment-info">
+            <h2>💳 Metode Pembayaran</h2>
+            <div class="payment-methods">
+                <div class="payment-method">
+                    <strong>QRIS</strong>
+                    <span>Scan & Pay</span>
+                </div>
+                <div class="payment-method">
+                    <strong>DANA</strong>
+                    <span>083852765078</span>
+                </div>
+                <div class="payment-method">
+                    <strong>OVO</strong>
+                    <span>083852765078</span>
+                </div>
+                <div class="payment-method">
+                    <strong>GoPay</strong>
+                    <span>083852765078</span>
+                </div>
+                <div class="payment-method">
+                    <strong>ShopeePay</strong>
+                    <span>083852765078</span>
+                </div>
+                <div class="payment-method">
+                    <strong>Bank Transfer</strong>
+                    <span>BCA, BRI, BNI, Mandiri</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>✨ Proses otomatis 24/7 | Garansi uang kembali | Support pelanggan terbaik</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <span>📧</span>
+                    <span>admin@storepanel.com</span>
+                </div>
+                <div class="contact-item">
+                    <span>📱</span>
+                    <span>+62 838-5276-5078</span>
+                </div>
+                <div class="contact-item">
+                    <span>💬</span>
+                    <span>WhatsApp: +62 838-5276-5078</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="orderModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Formulir Pemesanan</h2>
+            <form class="order-form" onsubmit="processOrder(event)">
+                <div class="form-group">
+                    <label for="service">Layanan:</label>
+                    <input type="text" id="service" name="service" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Nomor WhatsApp:</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="amount">Jumlah Pembelian (Rp):</label>
+                    <input type="number" id="amount" name="amount" min="1000" required>
+                </div>
+                <div class="form-group">
+                    <label for="details">Detail Pesanan:</label>
+                    <textarea id="details" name="details" rows="4" placeholder="Jelaskan detail pesanan Anda..." required></textarea>
+                </div>
+                
+                <div class="payment-section">
+                    <h3>Pilih Metode Pembayaran:</h3>
+                    <div class="payment-methods">
+                        <div class="payment-method" onclick="selectPayment('qris')">
+                            <strong>QRIS</strong>
+                            <span>Scan & Pay</span>
+                        </div>
+                        <div class="payment-method" onclick="selectPayment('dana')">
+                            <strong>DANA</strong>
+                            <span>083852765078</span>
+                        </div>
+                        <div class="payment-method" onclick="selectPayment('ovo')">
+                            <strong>OVO</strong>
+                            <span>083852765078</span>
+                        </div>
+                        <div class="payment-method" onclick="selectPayment('gopay')">
+                            <strong>GoPay</strong>
+                            <span>083852765078</span>
+                        </div>
+                        <div class="payment-method" onclick="selectPayment('shopeepay')">
+                            <strong>ShopeePay</strong>
+                            <span>083852765078</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn" id="orderBtn">Lanjutkan Pembayaran</button>
+            </form>
+
+            <!-- Payment Gateway Section -->
+            <div id="paymentGateway" class="payment-gateway">
+                <h3>💳 Pembayaran</h3>
+                <div class="amount-display">
+                    Total: Rp <span id="totalAmount">0</span>
+                </div>
+                <div class="timer">
+                    ⏰ Selesaikan pembayaran dalam: <span id="countdown">15:00</span>
+                </div>
+                
+                <div id="qrisSection" style="display: none;">
+                    <div class="qr-code">
+                        <div style="width: 200px; height: 200px; background: #f0f0f0; border: 2px dashed #ccc; display: flex; align-items: center; justify-content: center; margin: 0 auto; border-radius: 10px;">
+                            <span style="color: #666;">QR Code</span>
+                        </div>
+                    </div>
+                    <div class="payment-instructions">
+                        <h4>Cara Pembayaran QRIS:</h4>
+                        <ol>
+                            <li>Buka aplikasi e-wallet atau mobile banking</li>
+                            <li>Pilih menu "Scan QR" atau "QRIS"</li>
+                            <li>Scan QR code di atas</li>
+                            <li>Masukkan nominal sesuai dengan total di atas</li>
+                            <li>Konfirmasi pembayaran</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div id="ewalletSection" style="display: none;">
+                    <div style="text-align: center; margin: 20px 0;">
+                        <div style="font-size: 1.2rem; margin-bottom: 10px;">
+                            Kirim ke: <strong id="walletNumber">083852765078</strong>
+                            <button class="copy-btn" onclick="copyToClipboard('083852765078')">Copy</button>
+                        </div>
+                        <div style="font-size: 1rem; color: #666;">
+                            a.n. <strong>Yuji STORE</strong>
+                        </div>
+                    </div>
+                    <div class="payment-instructions">
+                        <h4>Cara Pembayaran E-Wallet:</h4>
+                        <ol>
+                            <li>Buka aplikasi <span id="walletName">DANA</span></li>
+                            <li>Pilih menu "Kirim Uang" atau "Transfer"</li>
+                            <li>Masukkan nomor: <strong>083852765078</strong></li>
+                            <li>Masukkan nominal: <strong>Rp <span id="transferAmount">0</span></strong></li>
+                            <li>Tambahkan pesan: ID Pesanan <strong id="orderId"></strong></li>
+                            <li>Konfirmasi transfer</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 20px;">
+                    <button class="btn" onclick="confirmPayment()" id="confirmBtn">
+                        <span class="loading" style="display: none;"></span>
+                        Saya Sudah Bayar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- EmailJS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

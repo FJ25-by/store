@@ -135,25 +135,31 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         function generateQRCode(amount) {
-            const nomor = '083852765078';
-            const apikey = 'yujixd';
-            const apiUrl = `https://api.neoxr.eu/api/topup-dana?number=${encodeURIComponent(nomor)}&amount=${amount}&apikey=${apikey}`;
-            const qrContainer = document.querySelector('.qr-code');
-            qrContainer.innerHTML = `<div class="loading"></div>`;
-            // Fetch QR dari API
-            fetch(apiUrl)
-                .then(response => response.json())
-                .then(result => {
-                    if (result && result.data && result.data.qr) {
-                        qrContainer.innerHTML = `<img src="${result.data.qr}" alt="QRIS QR Code" />`;
-                    } else {
-                        qrContainer.innerHTML = `<span style="color: #e53e3e;">Gagal memuat QR Code</span>`;
-                    }
-                })
-                .catch(() => {
-                    qrContainer.innerHTML = `<span style="color: #e53e3e;">Gagal memuat QR Code</span>`;
-                });
-        }
+    const nomor = '083852765078';
+    const apikey = 'yujixd';
+    const apiUrl = `https://api.neoxr.eu/api/topup-dana?number=${encodeURIComponent(nomor)}&amount=${amount}&apikey=${apikey}`;
+
+    const qrContainer = document.querySelector('.qr-code');
+    qrContainer.innerHTML = `<div class="loading"></div>`; // tampilkan loading
+
+    fetch(apiUrl)
+        .then(response => response.json())
+        .then(result => {
+            if (result.status && result.data && result.data.qr_image) {
+                const qrBase64 = result.data.qr_image;
+                qrContainer.innerHTML = `
+                    <img src="data:image/png;base64,${qrBase64}" alt="QRIS" />
+                `;
+            } else {
+                qrContainer.innerHTML = `<p style="color:red;">Gagal memuat QR Code.</p>`;
+                console.error(result);
+            }
+        })
+        .catch(err => {
+            qrContainer.innerHTML = `<p style="color:red;">Terjadi kesalahan saat memuat QR.</p>`;
+            console.error(err);
+        });
+}
 
         function startCountdown(duration) {
             let timer = duration, minutes, seconds;
